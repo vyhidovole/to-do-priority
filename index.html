@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+  <link rel="stylesheet" href="src/css/style.css" />
+</head>
+
+<body>
+  <nav class="navbar">
+    <h1 class="nav-brand">Tasks Manager</h1>
+  </nav>
+
+  <main class="container">
+    <form id="tasks-list-form">
+      <label class="label" for="component-name">Add task</label>
+      <input type="text" autocomplete="off" class="input" required placeholder="Enter you task" id="item-name" />
+      <button type="submit" class="btn btn-default">Add task</button>
+      <fieldset>
+        <legend>Priority:</legend>
+        <label for="low">
+          <input 
+          type="radio"
+           autocomplete="off"
+            id="low"
+             name="priority"
+              value="low" 
+              checked />
+          Low
+        </label>
+        <label for="medium">
+          <input 
+          type="radio"
+           autocomplete="off"
+            id="medium" 
+            name="priority" 
+            value="medium">
+          Medium
+        </label>
+        <label for="high">
+          <input 
+          type="radio"
+           autocomplete="off" 
+           id="high"
+            name="priority" 
+            value="high" />
+          High
+        </label>
+      </fieldset>
+    </form>
+
+    <ul id="tasks-list"></ul>
+    <hr />
+    <strong>Exported CSV</strong>
+    <p id="exported-json"></p>
+  </main>
+  <script type="module" src="src/js/index.js"></script>
+</body>
+
+</html>
