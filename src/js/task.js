@@ -7,7 +7,7 @@ import { nanoid } from 'nanoid';
  * @param {Array<{id: string, text: string}>} tasks - Массив задач.
  * @param {string} task - Текст новой задачи.
  * @param {string} priority - Приоритет задачи: 'low', 'medium', 'high'. По умолчанию 'low'.
- * @returns {Array<{id: string, text: string,priority:string,createdAt:Date()}>} - Обновлённый массив задач.
+ * @returns {Array<{id: string, text: string,priority:string,createdAt: number}>} - Обновлённый массив задач.
  */
 export function addTask(tasks, task, priority='low') {
   const newTask={
@@ -27,5 +27,5 @@ export function addTask(tasks, task, priority='low') {
  */
 export function exportLowerCasedCSV(tasks = []) {
   return tasks.map(task => 
-    `${task.text.toLowerCase()},${task.priority},${task.createdAt.toISOString()}`).join("\n");
+    `${task.text.toLowerCase()},${task.priority},${new Date(task.createdAt).toISOString()}`).join("\n");
 }
