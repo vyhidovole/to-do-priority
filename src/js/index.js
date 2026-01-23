@@ -90,6 +90,7 @@ if (form && itemName) {
     localStorage.setItem('tasks', JSON.stringify(tasks));
     const list = document.getElementById('tasks-list');
     render(tasks, list);
+    showNotification('Задача добавлена!', 'success');
   });
 }
 
@@ -109,6 +110,7 @@ if (list) {
     tasks = tasks.filter(task => task.id !== idToRemove);
     localStorage.setItem('tasks', JSON.stringify(tasks));
     render(tasks, list);
+    showNotification('Задача удалена!', 'error');
   }, 300);
 }
 
@@ -128,10 +130,27 @@ if (list) {
 
       localStorage.setItem('tasks', JSON.stringify(tasks));
       render(tasks, list);
+      showNotification('Задача обновлена!', 'success');
     }
   });
 }
+// === Уведомление ===
+const notification = document.getElementById('notification');
+const notificationText = document.querySelector('.notification-text');
 
+function showNotification(message, type = 'info') {
+  if (!notification || !notificationText) return;
+  notification.classList.add(type);
+  notificationText.textContent = message;
+  notification.classList.remove('hidden');
+  notification.classList.add('visible');
+
+  // Автоматически скрыть через 3 секунды
+  setTimeout(() => {
+    notification.classList.remove('visible');
+    setTimeout(() => notification.classList.add('hidden'), 300);
+  }, 3000);
+}
 
 // === Инициализация при загрузке ===
 const initList = document.getElementById('tasks-list');
