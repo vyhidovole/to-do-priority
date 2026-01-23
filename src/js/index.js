@@ -20,7 +20,7 @@ export function render(tasks, targetList) {
   sortedTasks.forEach(task => {
     const li = document.createElement('li');
     li.dataset.id = task.id;
-    li.className = `task-item card card-priority-${task.priority}`;
+    li.className = `card card-priority-${task.priority}`;
 
     // Текст задачи
     const taskText = document.createElement('span');
@@ -99,23 +99,23 @@ const list = document.getElementById('tasks-list');
 if (list) {
   list.addEventListener("click", (event) => {
     // Ищем ближайший предок с классом иконки
-    const deleteIcon = event.target.closest('.task-icon-delete');
-    const editIcon = event.target.closest('.task-icon-edit');
+    const deleteIcon = event.target.closest('.card .task-icon-delete');
+    const editIcon = event.target.closest('.card .task-icon-edit');
 
-   if (deleteIcon) {
-  const item = deleteIcon.closest('.task-item');
-  item.classList.add('removing');
-  setTimeout(() => {
-    const idToRemove = item.dataset.id;
-    tasks = tasks.filter(task => task.id !== idToRemove);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    render(tasks, list);
-    showNotification('Задача удалена!', 'error');
-  }, 300);
-}
+    if (deleteIcon) {
+      const item = deleteIcon.closest('.card');
+      item.classList.add('removing');
+      setTimeout(() => {
+        const idToRemove = item.dataset.id;
+        tasks = tasks.filter(task => task.id !== idToRemove);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        render(tasks, list);
+        showNotification('Задача удалена!', 'error');
+      }, 300);
+    }
 
     if (editIcon) {
-      const idToEdit = editIcon.closest('.task-item').dataset.id;
+      const idToEdit = editIcon.closest('.card').dataset.id;
       const task = tasks.find(t => t.id === idToEdit);
 
       if (!task) return;
