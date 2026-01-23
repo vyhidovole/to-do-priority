@@ -222,7 +222,8 @@ fieldset input[type="radio"] {
   font-weight: 500;
   flex: 1;
   margin-right: 0.75rem;
-  word-wrap: break-word;
+  word-break: break-word;       /* Вместо устаревшего word-wrap */
+  white-space: normal;          /* Позволяет тексту переноситься на новую строку */
 }
 
 .task-date {
@@ -247,8 +248,8 @@ hr {
   border-color: var(--neutral-4);
   margin: 2rem 0;
 }
-.delete-btn,
-.edit-btn {
+
+.task-icon {
   background: none;
   border: none;
   cursor: pointer; /* 👈 ДОБАВЬ ЭТО */
