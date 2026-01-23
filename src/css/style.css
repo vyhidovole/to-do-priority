@@ -255,61 +255,34 @@ hr {
   padding: 0;
   margin: 0;
 }
-/* Стили для списка задач */
-#tasks-list {
-  list-style: none;
-  padding: 0;
-  margin: 20px 0;
-}
 
-.task-item {
-  display: flex;
-  align-items: center;
-  padding: 14px 16px;
-  margin: 10px 0;
-  background: #f9f9f9;
+/* Уведомление */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #333;
+  color: white;
+  padding: 12px 20px;
   border-radius: 8px;
-  border-left: 4px solid #3498db;
-  font-size: 16px;
-  position: relative;
-}
-
-.task-text {
-  flex: 1;
-  word-break: break-word;
-}
-
-/* Иконки — как дочерние элементы */
-.task-icon {
-  font-size: 18px;
-  margin-left: 16px;
-  cursor: pointer;
-  color: #666;
-  transition: color 0.2s;
-  user-select: none;
-  /* Убираем выделение при клике */
-}
-
-.task-icon-delete {
-  color: #e74c3c;
-}
-
-.task-icon-delete:hover {
-  color: #c0392b;
-}
-
-.task-icon-edit {
-  color: #3498db;
-}
-
-.task-icon-edit:hover {
-  color: #2980b9;
-}
-.task-item {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.task-item.removing {
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
   opacity: 0;
-  transform: translateX(20px);
+  transform: translateY(-10px);
+  transition: all 0.3s ease-out;
+  pointer-events: none;
 }
+
+.notification.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.notification.hidden {
+  display: none;
+}
+.notification.success { background-color: #28a745; }
+.notification.error { background-color: #dc3545; }
+.notification.info { background-color: #17a2b8; }
