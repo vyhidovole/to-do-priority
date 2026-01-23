@@ -15,7 +15,7 @@ export function render(tasks, targetList) {
   targetList.innerHTML = '';
 
   // Сортируем по дате создания (новые — сверху)
-  const sortedTasks = [...tasks].sort((a, b) => b.createdAt - a.createdAt);
+  const sortedTasks = [...tasks].sort((a, b) => b.createdAt - a.createdAt);//?
 
   sortedTasks.forEach(task => {
     const li = document.createElement('li');
@@ -99,7 +99,7 @@ const list = document.getElementById('tasks-list');
 if (list) {
   list.addEventListener("click", (event) => {
     // Ищем ближайший предок с классом иконки
-    const deleteIcon = event.target.closest('.card .task-icon-delete');
+    const deleteIcon = event.target.closest('.card .task-icon-delete');// значит: “внутри карточки найди кнопку”.(с пробелом!)
     const editIcon = event.target.closest('.card .task-icon-edit');
 
     if (deleteIcon) {
@@ -140,6 +140,7 @@ const notificationText = document.querySelector('.notification-text');
 
 function showNotification(message, type = 'info') {
   if (!notification || !notificationText) return;
+  notification.classList.remove('success', 'error', 'info');
   notification.classList.add(type);
   notificationText.textContent = message;
   notification.classList.remove('hidden');
