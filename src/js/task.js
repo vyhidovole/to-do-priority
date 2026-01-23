@@ -14,7 +14,7 @@ export function addTask(tasks, task, priority='low') {
     id: nanoid(),
     text: task,
     priority:priority,
-    createdAt:  Date.now(),
+    createdAt:  Date.now(),//?
   }
   console.log('Добавлена задача:', newTask)
   return [...tasks, newTask];
