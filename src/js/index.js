@@ -7,15 +7,25 @@ import { addTask } from './task.js';
 // Локальные переменные
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-// 👇 Локальная функция — НЕ экспортируется!
+
 // === RENDER TASKS ===
-export function render(tasks, targetList) {
+export function render(tasks, targetList, sortOption = 'time') {
   if (!targetList) return;
 
   targetList.innerHTML = '';
 
-  // Сортируем по дате создания (новые — сверху)
-  const sortedTasks = [...tasks].sort((a, b) => b.createdAt - a.createdAt);//?
+  // Копируем массив, чтобы не мутировать оригинал
+  let sortedTasks = [...tasks];
+
+  // Сортировка по выбранному критерию
+  if (sortOption === 'prior') {
+    // Приоритет: high > medium > low
+    const priorityOrder = { high: 3, medium: 2, low: 1 };
+    sortedTasks.sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]);
+  } else {
+    // По умолчанию — по времени создания (новые сверху)
+    sortedTasks.sort((a, b) => b.createdAt - a.createdAt);
+  }
 
   sortedTasks.forEach(task => {
     const li = document.createElement('li');
@@ -31,13 +41,13 @@ export function render(tasks, targetList) {
     const editIcon = document.createElement('span');
     editIcon.className = 'task-icon task-icon-edit';
     editIcon.textContent = '✏️';
-    editIcon.setAttribute('aria-label', 'Редактировать задачу');
+    editIcon.setAttribute('aria-label', 'Редактировать задачу');//Позволяет пользователям с нарушениями зрения понять, что делает иконка  (a11y) 
 
     // Иконка удаления
     const deleteIcon = document.createElement('span');
     deleteIcon.className = 'task-icon task-icon-delete';
     deleteIcon.textContent = '🗑️';
-    deleteIcon.setAttribute('aria-label', 'Удалить задачу');
+    deleteIcon.setAttribute('aria-label', 'Удалить задачу');//Позволяет пользователям с нарушениями зрения понять, что делает иконка  (a11y) 
 
     // Дата создания
     const taskDate = document.createElement('small');
@@ -89,10 +99,20 @@ if (form && itemName) {
 
     localStorage.setItem('tasks', JSON.stringify(tasks));
     const list = document.getElementById('tasks-list');
-    render(tasks, list);
+    const currentSort = sortSelect?.value || 'time'; // ← ДОБАВИЛИ ЭТО
+    render(tasks, list, currentSort);
     showNotification('Задача добавлена!', 'success');
   });
+  
 }
+// === Сортировка ===
+const sortSelect = document.getElementById('sort');
+if (sortSelect) {
+  sortSelect.addEventListener('change', () => {
+    render(tasks, list); // Перерисуем с текущей сортировкой
+  });
+}
+
 
 // === Обработка удаления и редактирования ===
 const list = document.getElementById('tasks-list');
@@ -109,7 +129,8 @@ if (list) {
         const idToRemove = item.dataset.id;
         tasks = tasks.filter(task => task.id !== idToRemove);
         localStorage.setItem('tasks', JSON.stringify(tasks));
-        render(tasks, list);
+        const currentSort = sortSelect?.value || 'time'; // ← ДОБАВИЛИ ЭТО
+        render(tasks, list, currentSort);
         showNotification('Задача удалена!', 'error');
       }, 300);
     }
@@ -129,7 +150,8 @@ if (list) {
       );
 
       localStorage.setItem('tasks', JSON.stringify(tasks));
-      render(tasks, list);
+       const currentSort = sortSelect?.value || 'time'; // ← ДОБАВИЛИ ЭТО
+      render(tasks, list, currentSort);
       showNotification('Задача обновлена!', 'success');
     }
   });
@@ -150,11 +172,12 @@ function showNotification(message, type = 'info') {
   setTimeout(() => {
     notification.classList.remove('visible');
     setTimeout(() => notification.classList.add('hidden'), 300);
-  }, 3000);
+  }, 3000);//?
 }
 
 // === Инициализация при загрузке ===
 const initList = document.getElementById('tasks-list');
 if (initList) {
-  render(tasks, initList);
+   const currentSort = sortSelect?.value || 'time'; // ← ДОБАВИЛИ ЭТО
+  render(tasks, initList, currentSort);
 }
