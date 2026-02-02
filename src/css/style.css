@@ -287,3 +287,19 @@ hr {
 .notification.success { background-color: #28a745; }
 .notification.error { background-color: #dc3545; }
 .notification.info { background-color: #17a2b8; }
+
+#sort {
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  padding: 6px;
+}
+
+#sort:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+#sort[value="prior"] {
+  background-color: #f0f7ff;
+}
+
